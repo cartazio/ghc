@@ -717,7 +717,7 @@ AC_DEFUN([FP_ARG_WITH_PATH_GNU_PROG_DEFAULTED],
 [
 AC_ARG_WITH($2,
 [AC_HELP_STRING([--with-$2=ARG],
-        [Use ARG as the path to $2 [default=autodetect]])], dnl should it be "$$3"?
+        [Use ARG as the path to $2 [default=autodetect]])], # should it be "$$3"?
 [
     if test "$HostOS" = "mingw32"
     then
@@ -729,7 +729,7 @@ AC_ARG_WITH($2,
 [
     if test "$HostOS" != "mingw32"
     then
-        $1="$$3" # not sure if this is quite right
+        $1="$$3"
     fi
 ]
 )
