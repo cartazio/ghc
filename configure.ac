@@ -474,6 +474,15 @@ FIND_GCC([WhatGccIsCalled], [gcc], [gcc])
 CC="$WhatGccIsCalled"
 export CC
 
+dnl ** what cpp to use?
+dnl --------------------------------------------------------------
+FIND_CPP([WhatIsHaskelCPPCalled],[cpp],[WhatGccIsCalled])
+
+
+dnl ** what cpp flags to use?
+dnl -----------------------------------------------------------
+FP_CPP_FLAGS_WITH_VAL_DEFAULTED([WhatAreHaskellCPPFlags],[cpp-flags])
+
 dnl ** Which ld to use?
 dnl --------------------------------------------------------------
 FP_ARG_WITH_PATH_GNU_PROG([LD], [ld], [ld])
