@@ -451,6 +451,8 @@ AC_DEFUN([FP_SETTINGS],
     then
         mingw_bin_prefix=mingw/bin/
         SettingsCCompilerCommand="\$topdir/../${mingw_bin_prefix}gcc.exe"
+        # for now 
+        SettingsHaskellCPPCommand="\$topdir/../${mingw_bin_prefix}gcc.exe"
         SettingsLdCommand="\$topdir/../${mingw_bin_prefix}ld.exe"
         SettingsArCommand="\$topdir/../${mingw_bin_prefix}ar.exe"
         SettingsPerlCommand='$topdir/../perl/perl.exe'
@@ -459,6 +461,8 @@ AC_DEFUN([FP_SETTINGS],
         SettingsTouchCommand='$topdir/touchy.exe'
     else
         SettingsCCompilerCommand="$WhatGccIsCalled"
+        SettingsHaskellCPPCommand="$WhatIsHaskelCPPCalled"
+        SettingsHaskellCPPFlags="$WhatAreHaskellCPPFlags"
         SettingsLdCommand="$LdCmd"
         SettingsArCommand="$ArCmd"
         SettingsPerlCommand="$PerlCmd"
@@ -694,6 +698,77 @@ AC_ARG_WITH($2,
 ]
 )
 ]) # FP_ARG_WITH_PATH_GNU_PROG_OPTIONAL
+
+
+# FP_ARG_WITH_PATH_GNU_PROG_DEFAULTED
+# --------------------
+# Same as FP_ARG_WITH_PATH_GNU_PROG but no error will be thrown if the command
+# isn't found, and a default value is provided.
+#
+# This is ignored on the mingw32 platform.
+#
+# $1 = the variable to set
+# $2 = the with option name
+# $3 = the variable whose value is the default
+#
+AC_DEFUN([FP_ARG_WITH_PATH_GNU_PROG_DEFAULTED],
+[
+AC_ARG_WITH($2,
+[AC_HELP_STRING([--with-$2=ARG],
+        [Use ARG as the path to $2 [default="$3"]])], # should it be "$$3"?
+[
+    if test "$HostOS" = "mingw32"
+    then
+        AC_MSG_WARN([Request to use $withval will be ignored])
+    else
+        $1=$withval
+    fi
+],
+[
+    if test "$HostOS" != "mingw32"
+    then
+        $1="$3" # not sure if this is quite right
+    fi
+]
+)
+]) # FP_ARG_WITH_PATH_GNU_PROG_DEFAULTED
+
+
+# FP_CPP_FLAGS_WITH_VAL_DEFAULTED
+# --------------------
+# 
+#
+# This is ignored on the mingw32 platform.
+#
+# $1 = the variable to set
+# $2 = the with option name
+AC_DEFUN([FP_CPP_FLAGS_WITH_VAL_DEFAULTED],
+[
+AC_ARG_WITH($2,
+[AC_HELP_STRING([--with-$2=ARG],
+        [override default cpp flags])], # should it be "$$3"?
+[
+    if test "$HostOS" = "mingw32"
+    then
+        AC_MSG_WARN([Request to use $withval will be ignored])
+    else
+        $1=$withval
+    fi
+],
+[
+    if test "$HostOS" != "mingw32"
+    then
+            if test "$GccIsClang" = YES then
+                $1=" -E -undef -traditional -Wno-invalid-pp-token -Wno-unicode -Wno-trigraphs "
+            else
+                $1= " -E -undef -traditional "
+            fi
+
+    fi
+]
+)
+]) # FP_CPP_FLAGS_WITH_VAL_DEFAULTED
+
 
 # FP_PROG_CONTEXT_DIFF
 # --------------------
@@ -2070,5 +2145,24 @@ AC_DEFUN([FIND_GCC],[
     fi
     AC_SUBST($1)
 ])
+
+
+
+# FP_FIND_CPP()
+# --------------------------------
+# Finds where Haskell CPP is
+#
+# $1 = the variable to set
+# $2 = the with option name
+# $3 = the command to look for
+AC_DEFUN([FIND_CPP],[
+    
+    FP_ARG_WITH_PATH_GNU_PROG_DEFAULTED([$1], [$2], [$3])
+      
+      
+    
+    AC_SUBST($1)
+])
+
 
 # LocalWords:  fi
