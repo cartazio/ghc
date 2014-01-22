@@ -234,7 +234,7 @@ initSysTools mbMinusB
        gcc_prog <- getSetting "C compiler command"
        gcc_args_str <- getSetting "C compiler flags"
        cpp_prog <- getSetting "Haskell CPP command"
-       cpp_args_str <- getsetting "Haskell CPP flags"        
+       cpp_args_str <- getSetting "Haskell CPP flags"        
        let unreg_gcc_args = if targetUnregisterised
                             then ["-DNO_REGS", "-DUSE_MINIINTERPRETER"]
                             else []
