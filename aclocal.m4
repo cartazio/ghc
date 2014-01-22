@@ -729,7 +729,7 @@ AC_ARG_WITH($2,
 [
     if test "$HostOS" != "mingw32"
     then
-        $1="$3" # not sure if this is quite right
+        $1="$$3"
     fi
 ]
 )
@@ -764,7 +764,7 @@ AC_ARG_WITH($2,
             then
             $1=" -E -undef -traditional -Wno-invalid-pp-token -Wno-unicode -Wno-trigraphs "
             else
-            $1= " -E -undef -traditional "
+            $1=" -E -undef -traditional "
             fi
 
     fi
@@ -2149,7 +2149,7 @@ AC_DEFUN([FIND_GCC],[
 # $2 = the with option name
 # $3 = the command to look for
 AC_DEFUN([FIND_CPP],[    
-    FP_CPP_FLAGS_WITH_VAL_DEFAULTED([$1], [$2], [$3])    
+    FP_ARG_WITH_PATH_GNU_PROG_DEFAULTED([$1], [$2], [$3])    
     AC_SUBST($1)
 ])
 
