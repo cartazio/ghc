@@ -461,7 +461,7 @@ AC_DEFUN([FP_SETTINGS],
         SettingsTouchCommand='$topdir/touchy.exe'
     else
         SettingsCCompilerCommand="$WhatGccIsCalled"
-        SettingsHaskellCPPCommand="$WhatIsHaskelCPPCalled"
+        SettingsHaskellCPPCommand="$WhatIsHaskellCPPCalled"
         SettingsHaskellCPPFlags="$WhatAreHaskellCPPFlags"
         SettingsLdCommand="$LdCmd"
         SettingsArCommand="$ArCmd"
@@ -729,11 +729,29 @@ AC_ARG_WITH($2,
 [
     if test "$HostOS" != "mingw32"
     then
-        $1="$3" # not sure if this is quite right
+        $1="$$3"
     fi
 ]
 )
 ]) # FP_ARG_WITH_PATH_GNU_PROG_DEFAULTED
+
+# FP_GCC_IS_CLANG
+# ---------------
+#
+# Check whether gcc is actually clang
+# Somewhat inspired by llvm's configure.ac
+#
+AC_DEFUN([FP_CHECK_GCC_IS_CLANG],
+[
+AC_MSG_CHECKING([whether GCC is Clang])
+AC_COMPILE_IFELSE([AC_LANG_SOURCE([[#if ! __clang__
+                                    #error
+                                    #endif
+                                    ]])],
+                   GccIsClang="YES",
+                   GccIsClang="NO")
+AC_MSG_RESULT([${GccIsClang}])
+]) #FP_GCC_IS_CLANG
 
 
 # FP_CPP_FLAGS_WITH_VAL_DEFAULTED
@@ -758,13 +776,14 @@ AC_ARG_WITH($2,
     fi
 ],
 [
+    FP_CHECK_GCC_IS_CLANG
     if test "$HostOS" != "mingw32"
     then
-            if test "$GccIsClang" = YES  
+       	    if test x$GccIsClang = xYES  
             then
             $1=" -E -undef -traditional -Wno-invalid-pp-token -Wno-unicode -Wno-trigraphs "
             else
-            $1= " -E -undef -traditional "
+            $1=" -E -undef -traditional "
             fi
 
     fi
@@ -2159,7 +2178,7 @@ AC_DEFUN([FIND_GCC],[
 # $2 = the with option name
 # $3 = the command to look for
 AC_DEFUN([FIND_CPP],[    
-    FP_CPP_FLAGS_WITH_VAL_DEFAULTED([$1], [$2], [$3])    
+    FP_ARG_WITH_PATH_GNU_PROG_DEFAULTED([$1], [$2], [$3])    
     AC_SUBST($1)
 ])
 
