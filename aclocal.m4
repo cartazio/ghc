@@ -461,7 +461,7 @@ AC_DEFUN([FP_SETTINGS],
         SettingsTouchCommand='$topdir/touchy.exe'
     else
         SettingsCCompilerCommand="$WhatGccIsCalled"
-        SettingsHaskellCPPCommand="$WhatIsHaskelCPPCalled"
+        SettingsHaskellCPPCommand="$WhatIsHaskellCPPCalled"
         SettingsHaskellCPPFlags="$WhatAreHaskellCPPFlags"
         SettingsLdCommand="$LdCmd"
         SettingsArCommand="$ArCmd"
