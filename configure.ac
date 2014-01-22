@@ -476,7 +476,8 @@ export CC
 
 dnl ** what cpp to use?
 dnl --------------------------------------------------------------
-FIND_CPP([WhatIsHaskelCPPCalled],[cpp],[WhatGccIsCalled])
+FIND_CPP([WhatIsHaskellCPPCalled],[cpp],[WhatGccIsCalled])
+
 
 
 dnl ** what cpp flags to use?
@@ -967,13 +968,14 @@ echo ["\
    Using $CompilerName       : $WhatGccIsCalled
       which is version       : $GccVersion
    Building a cross compiler : $CrossCompiling
-
-   ld       : $LdCmd
-   Happy    : $HappyCmd ($HappyVersion)
-   Alex     : $AlexCmd ($AlexVersion)
-   Perl     : $PerlCmd
-   dblatex  : $DblatexCmd
-   xsltproc : $XsltprocCmd
+   cpp       : $WhatIsHaskellCPPCalled
+   cpp-flags : $WhatAreHaskellCPPFlags
+   ld        : $LdCmd
+   Happy     : $HappyCmd ($HappyVersion)
+   Alex      : $AlexCmd ($AlexVersion)
+   Perl      : $PerlCmd
+   dblatex   : $DblatexCmd
+   xsltproc  : $XsltprocCmd
 
    Using LLVM tools
       llc   : $LlcCmd

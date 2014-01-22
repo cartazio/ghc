@@ -487,6 +487,8 @@ AC_DEFUN([FP_SETTINGS],
     SettingsCCompilerLinkFlags="$CONF_GCC_LINKER_OPTS_STAGE2"
     SettingsLdFlags="$CONF_LD_LINKER_OPTS_STAGE2"
     AC_SUBST(SettingsCCompilerCommand)
+    AC_SUBST(SettingsHaskellCPPCommand)
+    AC_SUBST(SettingsHaskellCPPFlags)
     AC_SUBST(SettingsCCompilerFlags)
     AC_SUBST(SettingsCCompilerLinkFlags)
     AC_SUBST(SettingsLdCommand)
@@ -715,7 +717,7 @@ AC_DEFUN([FP_ARG_WITH_PATH_GNU_PROG_DEFAULTED],
 [
 AC_ARG_WITH($2,
 [AC_HELP_STRING([--with-$2=ARG],
-        [Use ARG as the path to $2 [default="$3"]])], # should it be "$$3"?
+        [Use ARG as the path to $2 [default=autodetect]])], # should it be "$$3"?
 [
     if test "$HostOS" = "mingw32"
     then
@@ -758,10 +760,11 @@ AC_ARG_WITH($2,
 [
     if test "$HostOS" != "mingw32"
     then
-            if test "$GccIsClang" = YES then
-                $1=" -E -undef -traditional -Wno-invalid-pp-token -Wno-unicode -Wno-trigraphs "
+            if test "$GccIsClang" = YES  
+            then
+            $1=" -E -undef -traditional -Wno-invalid-pp-token -Wno-unicode -Wno-trigraphs "
             else
-                $1= " -E -undef -traditional "
+            $1= " -E -undef -traditional "
             fi
 
     fi
@@ -2145,12 +2148,8 @@ AC_DEFUN([FIND_GCC],[
 # $1 = the variable to set
 # $2 = the with option name
 # $3 = the command to look for
-AC_DEFUN([FIND_CPP],[
-    
-    FP_ARG_WITH_PATH_GNU_PROG_DEFAULTED([$1], [$2], [$3])
-      
-      
-    
+AC_DEFUN([FIND_CPP],[    
+    FP_CPP_FLAGS_WITH_VAL_DEFAULTED([$1], [$2], [$3])    
     AC_SUBST($1)
 ])
 
