@@ -761,11 +761,10 @@ AC_MSG_RESULT([${GccIsClang}])
 # This is ignored on the mingw32 platform.
 #
 # $1 = the variable to set
-# $2 = the with option name
 AC_DEFUN([FP_CPP_FLAGS_WITH_VAL_DEFAULTED],
 [
-AC_ARG_WITH($2,
-[AC_HELP_STRING([--with-$2=ARG],
+AC_ARG_WITH(cpp-flags,
+[AC_HELP_STRING([--with-cpp-flags=ARG],
         [override default cpp flags])], # should it be "$$3"?
 [
     if test "$HostOS" = "mingw32"

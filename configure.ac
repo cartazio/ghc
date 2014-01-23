@@ -482,7 +482,7 @@ FIND_CPP([WhatIsHaskellCPPCalled],[cpp],[WhatGccIsCalled])
 
 dnl ** what cpp flags to use?
 dnl -----------------------------------------------------------
-FP_CPP_FLAGS_WITH_VAL_DEFAULTED([WhatAreHaskellCPPFlags],[cpp-flags])
+FP_CPP_FLAGS_WITH_VAL_DEFAULTED([WhatAreHaskellCPPFlags])
 
 dnl ** Which ld to use?
 dnl --------------------------------------------------------------
