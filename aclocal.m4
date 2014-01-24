@@ -2170,17 +2170,4 @@ AC_DEFUN([FIND_GCC],[
 
 
 
-# FP_FIND_CPP()
-# --------------------------------
-# Finds where Haskell CPP is
-#
-# $1 = the variable to set
-# $2 = the with option name
-# $3 = the command to look for
-AC_DEFUN([FIND_CPP],[    
-    FP_ARG_WITH_PATH_GNU_PROG_DEFAULTED([$1], [$2], [$3])    
-    AC_SUBST($1)
-])
-
-
 # LocalWords:  fi
