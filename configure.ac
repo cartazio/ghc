@@ -476,13 +476,62 @@ export CC
 
 dnl ** what cpp to use?
 dnl --------------------------------------------------------------
-FIND_CPP([WhatIsHaskellCPPCalled],[cpp],[WhatGccIsCalled])
+AC_ARG_WITH(cpp,
+[AC_HELP_STRING([--with-cpp=ARG],
+        [Use ARG as the path to cpp [default=autodetect]])],
+[
+    if test "$HostOS" = "mingw32"
+    then
+        AC_MSG_WARN([Request to use $withval will be ignored])
+    else
+        WhatIsHaskellCPPCalled=$withval
+    fi
+],
+[
+    if test "$HostOS" != "mingw32"
+    then
+        WhatIsHaskellCPPCalled=$WhatGccIsCalled
+    fi
+]
+)
 
 
 
 dnl ** what cpp flags to use?
 dnl -----------------------------------------------------------
+AC_ARG_WITH(cpp-flags,
+  [AC_HELP_STRING([--with-cpp-flags=ARG],
+          [Use ARG as the path to cpp [default=autodetect]])],
+  [
+      if test "$HostOS" = "mingw32"
+      then
+          AC_MSG_WARN([Request to use $withval will be ignored])
+      else
+          WhatAreHaskellCPPFlags=$withval
+      fi
+  ],
+[ 
+  $WhatIsHaskellCPPCalled -x c /dev/null -dM -E > conftest.txt 2>&1
+  if grep "__clang__" conftest.txt >/dev/null 2>&1; then
+    WhatAreHaskellCPPFlags=" -E -undef -traditional -Wno-invalid-pp-token -Wno-unicode -Wno-trigraphs "
+  else 
+      $WhatIsHaskellCPPCalled  -v > conftest.txt 2>&1
+      if  grep "gcc" conftest.txt >/dev/null 2>&1; then 
+          WhatAreHaskellCPPFlags=" -E -undef -traditional "
+        else
+          $WhatIsHaskellCPPCalled  --version > conftest.txt 2>&1
+          if grep "cpphs" conftest.txt >/dev/null 2>&1; then 
+            WhatAreHaskellCPPFlags="--cpp"
+          else
+            AC_MSG_WARN([configure can't recognize your CPP program, you may need to set --with-cpp-flags=FLAGS explicitly])
 FP_CPP_FLAGS_WITH_VAL_DEFAULTED([WhatAreHaskellCPPFlags])
+          fi
+
+      fi 
+  fi
+  ]
+)
+
 
 dnl ** Which ld to use?
 dnl --------------------------------------------------------------
