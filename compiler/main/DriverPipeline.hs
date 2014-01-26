@@ -2053,7 +2053,7 @@ doCpp dflags raw input_fn output_fn = do
     let cmdline_include_paths = includePaths dflags
 
     pkg_include_dirs <- getPackageIncludePath dflags []
-    let include_paths = foldr (\ x xs -> "-I" : x : xs) []
+    let include_paths = foldr (\ x xs -> ("-I" ++ x) : xs) []
                           (cmdline_include_paths ++ pkg_include_dirs)
 
     let verbFlags = getVerbFlags dflags
@@ -2098,7 +2098,7 @@ doCpp dflags raw input_fn output_fn = do
         -- about this.
                     ++ [ SysTools.Option     "-x"
                        , SysTools.Option     "assembler-with-cpp"
-                       , SysTools.Option     input_fn
+                       , SysTools.Option     input_fn ]
         -- We hackily use Option instead of FileOption here, so that the file
         -- name is not back-slashed on Windows.  cpp is capable of
         -- dealing with / in filenames, so it works fine.  Furthermore
@@ -2107,9 +2107,8 @@ doCpp dflags raw input_fn output_fn = do
         -- our error messages get double backslashes in them.
         -- In due course we should arrange that the lexer deals
         -- with these \\ escapes properly.
-                       , SysTools.Option     "-o"
-                       , SysTools.FileOption "" output_fn
-                       ])
+                    ++ [ SysTools.Option     "-o" | not raw ] -- real cpp doesn't need this
+                    ++ [ SysTools.FileOption "" output_fn ])
 
 getBackendDefs :: DynFlags -> IO [String]
 getBackendDefs dflags | hscTarget dflags == HscLlvm = do
