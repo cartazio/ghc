@@ -513,11 +513,11 @@ AC_ARG_WITH(cpp-flags,
 [ 
   $WhatIsHaskellCPPCalled -x c /dev/null -dM -E > conftest.txt 2>&1
   if grep "__clang__" conftest.txt >/dev/null 2>&1; then
-    WhatAreHaskellCPPFlags=" -E -undef -traditional -Wno-invalid-pp-token -Wno-unicode -Wno-trigraphs "
+    WhatAreHaskellCPPFlags="-E -undef -traditional -Wno-invalid-pp-token -Wno-unicode -Wno-trigraphs "
   else 
       $WhatIsHaskellCPPCalled  -v > conftest.txt 2>&1
       if  grep "gcc" conftest.txt >/dev/null 2>&1; then 
-          WhatAreHaskellCPPFlags=" -E -undef -traditional "
+          WhatAreHaskellCPPFlags="-E -undef -traditional "
         else
           $WhatIsHaskellCPPCalled  --version > conftest.txt 2>&1
           if grep "cpphs" conftest.txt >/dev/null 2>&1; then 
