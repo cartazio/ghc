@@ -476,8 +476,8 @@ export CC
 
 dnl ** what cpp to use?
 dnl --------------------------------------------------------------
-AC_ARG_WITH(cpp,
-[AC_HELP_STRING([--with-cpp=ARG],
+AC_ARG_WITH(hs-cpp,
+[AC_HELP_STRING([--with-hs-cpp=ARG],
         [Use ARG as the path to cpp [default=autodetect]])],
 [
     if test "$HostOS" = "mingw32"
@@ -499,9 +499,9 @@ AC_ARG_WITH(cpp,
 
 dnl ** what cpp flags to use?
 dnl -----------------------------------------------------------
-AC_ARG_WITH(cpp-flags,
-  [AC_HELP_STRING([--with-cpp-flags=ARG],
-          [Use ARG as the path to cpp [default=autodetect]])],
+AC_ARG_WITH(hs-cpp-flags,
+  [AC_HELP_STRING([--with-hs-cpp-flags=ARG],
+          [Use ARG as the path to hs cpp [default=autodetect]])],
   [
       if test "$HostOS" = "mingw32"
       then
@@ -523,8 +523,8 @@ AC_ARG_WITH(cpp-flags,
           if grep "cpphs" conftest.txt >/dev/null 2>&1; then 
             WhatAreHaskellCPPFlags="--cpp"
           else
-            AC_MSG_WARN([configure can't recognize your CPP program, you may need to set --with-cpp-flags=FLAGS explicitly])
-FP_CPP_FLAGS_WITH_VAL_DEFAULTED([WhatAreHaskellCPPFlags])
+            AC_MSG_WARN([configure can't recognize your CPP program, you may need to set --with-hs-cpp-flags=FLAGS explicitly])
+            FP_CPP_FLAGS_WITH_VAL_DEFAULTED([WhatAreHaskellCPPFlags])
           fi
 
       fi 
