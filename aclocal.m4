@@ -764,8 +764,8 @@ AC_MSG_RESULT([${GccIsClang}])
 # $2 = the with option name
 AC_DEFUN([FP_CPP_FLAGS_WITH_VAL_DEFAULTED],
 [
-AC_ARG_WITH(cpp-flags,
-[AC_HELP_STRING([--with-cpp-flags=ARG],
+AC_ARG_WITH(hs-cpp-flags,
+[AC_HELP_STRING([--with-hs-cpp-flags=ARG],
         [override default cpp flags])], # should it be "$$3"?
 [
     if test "$HostOS" = "mingw32"
@@ -779,7 +779,7 @@ AC_ARG_WITH(cpp-flags,
     FP_CHECK_GCC_IS_CLANG
     if test "$HostOS" != "mingw32"
     then
-       	    if test x$GccIsClang = xYES  
+       	    if test x$GccIsClang = xYES
             then
             $1=" -E -undef -traditional -Wno-invalid-pp-token -Wno-unicode -Wno-trigraphs "
             else
