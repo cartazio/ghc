@@ -521,7 +521,7 @@ AC_ARG_WITH(hs-cpp-flags,
         else
           $WhatIsHaskellCPPCalled  --version > conftest.txt 2>&1
           if grep "cpphs" conftest.txt >/dev/null 2>&1; then 
-            WhatAreHaskellCPPFlags="--cpp"
+            WhatAreHaskellCPPFlags="--cpp -traditional"
           else
             AC_MSG_WARN([configure can't recognize your CPP program, you may need to set --with-hs-cpp-flags=FLAGS explicitly])
             FP_CPP_FLAGS_WITH_VAL_DEFAULTED([WhatAreHaskellCPPFlags])
