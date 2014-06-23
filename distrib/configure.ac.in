@@ -114,7 +114,7 @@ AC_ARG_WITH(hs-cpp-flags,
             WhatAreHaskellCPPFlags="--cpp -traditional"
           else
             AC_MSG_WARN([configure can't recognize your CPP program, you may need to set --with-hs-cpp-flags=FLAGS explicitly])
-            FP_CPP_FLAGS_WITH_VAL_DEFAULTED([WhatAreHaskellCPPFlags])
+            WhatAreHaskellCPPFlags=""
           fi
       fi
   fi
