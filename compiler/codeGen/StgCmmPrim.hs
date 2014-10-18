@@ -1571,7 +1571,7 @@ doPrefetchMutableByteArrayOp :: Int
 doPrefetchMutableByteArrayOp locality res [addr,idx]
    = do dflags <- getDynFlags
         mkBasicPrefetch locality (arrWordsHdrSize dflags) res addr idx Nothing
-doPrefetchByteArrayOp _ _ _
+doPrefetchMutableByteArrayOp _ _ _
    = panic "StgCmmPrim: doPrefetchByteArrayOp"
 
 doPrefetchAddrOp ::Int
