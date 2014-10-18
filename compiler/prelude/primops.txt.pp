@@ -2936,17 +2936,16 @@ section "Prefetch"
   The {\tt prefetchMutableByteArray} family of operations has the order of operations
   determined by passing around the {\tt State#} token.
 
-  For the {\tt prefetchByteArray}
-  and {\tt prefetchAddr} families of operations, consider the following example:
+  The {\tt prefetchByteArray}
+  and {\tt prefetchAddr} families of operations, which are pure, are meant to
+  be used in a {\tt seq} style fashion like the following
 
-  {\tt let a1 = prefetchByteArray2# a n in ...a1... }
+  {\tt do _ <- prefetchByteArray2# a n (return ()) ; ... }
 
-  In the above fragement, {\tt a} is the input variable for the prefetch
-  and {\tt a1 == a} will be true. To ensure that the prefetch is not treated as deadcode,
-  the body of the let should only use {\tt a1} and NOT {\tt a}. The same principle
-  applies for uses of prefetch in a loop.
-
+  This idiom will allow writing pure prefetch operations before the use site
+  of the Addr#  or ByteArray#.
   }
+
 
 
 ------------------------------------------------------------------------

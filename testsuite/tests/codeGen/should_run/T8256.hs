@@ -22,8 +22,7 @@ sameByteArray ar1 ar2 = runST $
 
 
 appBy :: Monad m => (ByteArray# -> Int# -> a -> a) -> ByteArray  -> a -> m a
-appBy f (ByteArray by) a =  f #1 by  a
-
+appBy f (ByteArray by) a = return $  f by #1   a
 --isSameByteArray :: ByteArray -> ByteArray -> Bool
 --isSameByteArray = sameByteArray
 
