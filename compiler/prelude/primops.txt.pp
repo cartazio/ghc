@@ -2943,7 +2943,7 @@ section "Prefetch"
   {\tt do _ <- prefetchByteArray2# a n (return ()) ; ... }
 
   This idiom will allow writing pure prefetch operations before the use site
-  of the Addr#  or ByteArray#.
+  of the Addr# or ByteArray#.
   }
 
 
