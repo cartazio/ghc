@@ -1,6 +1,9 @@
 {-# LANGUAGE MagicHash, UnboxedTuples #-}
 
-
+{-
+this test has been updated to reflect new design of pure prefetch operations
+in Trac #9353
+-}
 
 import GHC.Prim
 
@@ -21,8 +24,11 @@ sameByteArray ar1 ar2 = runST $
 
 
 
-appBy :: Monad m => (ByteArray# -> Int# -> a -> a) -> ByteArray  -> a -> m a
-appBy f (ByteArray by) a = return $  f by #1   a
+appBy :: Monad m => (ByteArray# -> Int# -> a -> (#a#)) -> ByteArray  -> a -> m a
+appBy f (ByteArray by) a = (return . untup )$  f by #1   a
+      where
+        untup :: (#a#)-> a
+        untup (#a#) = a
 --isSameByteArray :: ByteArray -> ByteArray -> Bool
 --isSameByteArray = sameByteArray
 
