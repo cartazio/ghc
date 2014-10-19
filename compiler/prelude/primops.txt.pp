@@ -2938,7 +2938,9 @@ section "Prefetch"
 
   The {\tt prefetchByteArray}
   and {\tt prefetchAddr} families of operations, which are pure, are meant to
-  be used in a {\tt seq} style fashion.
+  be used in a {\tt seq} style fashion like the following
+
+  {\tt do  prefetchByteArray2# a n (return ())  ... }
 
   This idiom will allow writing pure prefetch operations before the use site
   of the Addr# or ByteArray#.
@@ -2953,46 +2955,46 @@ section "Prefetch"
 
 ---
 primop PrefetchByteArrayOp3 "prefetchByteArray3#" GenPrimOp
-   ByteArray# -> Int# -> a -> a
+   ByteArray# -> Int# -> a -> (# a #)
 
 primop PrefetchMutableByteArrayOp3 "prefetchMutableByteArray3#" GenPrimOp
    MutableByteArray# s -> Int# -> State# s -> State# s
 
 primop PrefetchAddrOp3 "prefetchAddr3#" GenPrimOp
-   Addr# -> Int# -> a -> a
+   Addr# -> Int# -> a -> (# a #)
 
 ----
 
 primop PrefetchByteArrayOp2 "prefetchByteArray2#" GenPrimOp
-   ByteArray# -> Int# -> a -> a
+   ByteArray# -> Int# -> a -> (# a #)
 
 primop PrefetchMutableByteArrayOp2 "prefetchMutableByteArray2#" GenPrimOp
    MutableByteArray# s -> Int# -> State# s -> State# s
 
 primop PrefetchAddrOp2 "prefetchAddr2#" GenPrimOp
-   Addr# -> Int# -> a -> a
+   Addr# -> Int# -> a -> (# a #)
 
 ----
 
 primop PrefetchByteArrayOp1 "prefetchByteArray1#" GenPrimOp
-   ByteArray# -> Int# -> a -> a
+   ByteArray# -> Int# -> a -> (# a #)
 
 primop PrefetchMutableByteArrayOp1 "prefetchMutableByteArray1#" GenPrimOp
    MutableByteArray# s -> Int# -> State# s -> State# s
 
 primop PrefetchAddrOp1 "prefetchAddr1#" GenPrimOp
-   Addr# -> Int# -> a -> a
+   Addr# -> Int# -> a -> (# a #)
 
 ----
 
 primop PrefetchByteArrayOp0 "prefetchByteArray0#" GenPrimOp
-   ByteArray# -> Int# -> a -> a
+   ByteArray# -> Int# -> a -> (# a #)
 
 primop PrefetchMutableByteArrayOp0 "prefetchMutableByteArray0#" GenPrimOp
    MutableByteArray# s -> Int# -> State# s -> State# s
 
 primop PrefetchAddrOp0 "prefetchAddr0#" GenPrimOp
-   Addr# -> Int# -> a -> a
+   Addr# -> Int# -> a -> (# a #)
 
 
 
