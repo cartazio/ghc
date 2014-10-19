@@ -2938,9 +2938,7 @@ section "Prefetch"
 
   The {\tt prefetchByteArray}
   and {\tt prefetchAddr} families of operations, which are pure, are meant to
-  be used in a {\tt seq} style fashion like the following
-
-  {\tt do  prefetchByteArray2# a n (return ())  ... }
+  be used in a {\tt seq} style fashion.
 
   This idiom will allow writing pure prefetch operations before the use site
   of the Addr# or ByteArray#.
@@ -2961,7 +2959,7 @@ primop PrefetchMutableByteArrayOp3 "prefetchMutableByteArray3#" GenPrimOp
    MutableByteArray# s -> Int# -> State# s -> State# s
 
 primop PrefetchAddrOp3 "prefetchAddr3#" GenPrimOp
-    Addr# -> Int# -> a -> a
+   Addr# -> Int# -> a -> a
 
 ----
 
