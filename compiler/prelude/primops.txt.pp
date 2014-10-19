@@ -2940,7 +2940,7 @@ section "Prefetch"
   and {\tt prefetchAddr} families of operations, which are pure, are meant to
   be used in a {\tt seq} style fashion like the following
 
-  {\tt do _ <- prefetchByteArray2# a n (return ()) ; ... }
+  {\tt do  prefetchByteArray2# a n (return ())  ... }
 
   This idiom will allow writing pure prefetch operations before the use site
   of the Addr# or ByteArray#.
