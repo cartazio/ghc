@@ -3001,7 +3001,7 @@ primop PrefetchMutableByteArrayOp0 "prefetchMutableByteArray0#" GenPrimOp
 primop PrefetchAddrOp0 "prefetchAddr0#" GenPrimOp
    Addr# -> Int# -> State# s -> State# s
 
-primop PrefetchValueOp0 "prefetchValue30#" GenPrimOp
+primop PrefetchValueOp0 "prefetchValue0#" GenPrimOp
    a -> State# s -> State# s
    with strictness  = { \ _arity -> mkClosedStrictSig [botDmd, topDmd] topRes }
 
