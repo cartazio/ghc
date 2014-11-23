@@ -735,21 +735,25 @@ emitPrimOp dflags res (VecWriteScalarOffAddrOp vcat n w) args = do
     ty = vecCmmCat vcat w
 
 -- Prefetch
-emitPrimOp _ res PrefetchByteArrayOp3        args = doPrefetchByteArrayOp 3 res args
-emitPrimOp _ res PrefetchMutableByteArrayOp3 args = doPrefetchMutableByteArrayOp 3 res args
-emitPrimOp _ res PrefetchAddrOp3             args = doPrefetchAddrOp  3 res args
+emitPrimOp _ res PrefetchByteArrayOp3        args = doPrefetchByteArrayOp 3  args
+emitPrimOp _ res PrefetchMutableByteArrayOp3 args = doPrefetchMutableByteArrayOp 3  args
+emitPrimOp _ res PrefetchAddrOp3             args = doPrefetchAddrOp  3  args
+emitPrimOp _ res PrefetchValueOp3            args = doPrefetchValueOp 3 args
 
-emitPrimOp _ res PrefetchByteArrayOp2        args = doPrefetchByteArrayOp 2 res args
-emitPrimOp _ res PrefetchMutableByteArrayOp2 args = doPrefetchMutableByteArrayOp 2 res args
-emitPrimOp _ res PrefetchAddrOp2             args = doPrefetchAddrOp 2 res args
+emitPrimOp _ res PrefetchByteArrayOp2        args = doPrefetchByteArrayOp 2  args
+emitPrimOp _ res PrefetchMutableByteArrayOp2 args = doPrefetchMutableByteArrayOp 2  args
+emitPrimOp _ res PrefetchAddrOp2             args = doPrefetchAddrOp 2  args
+emitPrimOp _ res PrefetchValueOp2           args = doPrefetchValueOp 2 args
 
-emitPrimOp _ res PrefetchByteArrayOp1        args = doPrefetchByteArrayOp 1 res args
-emitPrimOp _ res PrefetchMutableByteArrayOp1 args = doPrefetchMutableByteArrayOp 1 res args
-emitPrimOp _ res PrefetchAddrOp1             args = doPrefetchAddrOp 1 res args
+emitPrimOp _ res PrefetchByteArrayOp1        args = doPrefetchByteArrayOp 1  args
+emitPrimOp _ res PrefetchMutableByteArrayOp1 args = doPrefetchMutableByteArrayOp 1  args
+emitPrimOp _ res PrefetchAddrOp1             args = doPrefetchAddrOp 1  args
+emitPrimOp _ res PrefetchValueOp1            args = doPrefetchValueOp 1 args
 
-emitPrimOp _ res PrefetchByteArrayOp0        args = doPrefetchByteArrayOp 0 res args
-emitPrimOp _ res PrefetchMutableByteArrayOp0 args = doPrefetchMutableByteArrayOp 0 res args
-emitPrimOp _ res PrefetchAddrOp0             args = doPrefetchAddrOp 0 res args
+emitPrimOp _ res PrefetchByteArrayOp0        args = doPrefetchByteArrayOp 0  args
+emitPrimOp _ res PrefetchMutableByteArrayOp0 args = doPrefetchMutableByteArrayOp 0  args
+emitPrimOp _ res PrefetchAddrOp0             args = doPrefetchAddrOp 0  args
+emitPrimOp _ res PrefetchValueOp0            args = doPrefetchValueOp 0 args
 
 -- Atomic read-modify-write
 emitPrimOp dflags [res] FetchAddByteArrayOp_Int [mba, ix, n] =
@@ -1555,48 +1559,49 @@ associated value in memory is read
 
 
 doPrefetchByteArrayOp :: Int
-                      -> [LocalReg]
                       -> [CmmExpr]
                       -> FCode ()
-doPrefetchByteArrayOp locality res [addr,idx,seqlikeResult]
+doPrefetchByteArrayOp locality  [addr,idx]
    = do dflags <- getDynFlags
-        mkBasicPrefetch locality (arrWordsHdrSize dflags) res addr idx (Just seqlikeResult)
-doPrefetchByteArrayOp _ _ _
+        mkBasicPrefetch locality (arrWordsHdrSize dflags)  addr idx
+doPrefetchByteArrayOp _ _
    = panic "StgCmmPrim: doPrefetchByteArrayOp"
 
 doPrefetchMutableByteArrayOp :: Int
-                      -> [LocalReg]
                       -> [CmmExpr]
                       -> FCode ()
-doPrefetchMutableByteArrayOp locality res [addr,idx]
+doPrefetchMutableByteArrayOp locality  [addr,idx]
    = do dflags <- getDynFlags
-        mkBasicPrefetch locality (arrWordsHdrSize dflags) res addr idx Nothing
-doPrefetchMutableByteArrayOp _ _ _
+        mkBasicPrefetch locality (arrWordsHdrSize dflags)  addr idx
+doPrefetchMutableByteArrayOp _ _
    = panic "StgCmmPrim: doPrefetchByteArrayOp"
 
 doPrefetchAddrOp ::Int
-                 -> [LocalReg]
                  -> [CmmExpr]
                  -> FCode ()
-doPrefetchAddrOp locality  res [addr,idx,seqlikeResult]
-   = mkBasicPrefetch locality 0 res addr idx (Just seqlikeResult)
-doPrefetchAddrOp _ _  _
+doPrefetchAddrOp locality   [addr,idx]
+   = mkBasicPrefetch locality 0  addr idx
+doPrefetchAddrOp _ _
    = panic "StgCmmPrim: doPrefetchAddrOp"
+
+doPrefetchValueOp :: Int
+                 -> CmmExpr
+                 -> FCode ()
+doPrefetchValueOp  locality   addr
+  =  do dflags <- getDynFlags
+        mkBasicPrefetch locality 0 addr  (CmmLit (CmmInt 0 (wordWidth dflags)))
+doPrefetchValueOp _ _
+  = panic "StgCmmPrim: doPrefetchValueOp"
 
 mkBasicPrefetch :: Int          -- Locality level 0-3
                 -> ByteOff      -- Initial offset in bytes
-                -> [LocalReg]   -- Destination
                 -> CmmExpr      -- Base address
                 -> CmmExpr      -- Index
-                -> (Maybe CmmExpr)    -- The seqlike argument
                 -> FCode ()
-mkBasicPrefetch locality off res base idx seqlikeResult
+mkBasicPrefetch locality off base idx
    = do dflags <- getDynFlags
         emitPrimCall [] (MO_Prefetch_Data locality) [cmmIndexExpr dflags W8 (cmmOffsetB dflags base off) idx]
-        case (res,seqlikeResult) of
-          ([],Nothing)    -> return ()  --  only happen for the MutableByteArrayPrefetch
-          ([reg], Just result) -> emitAssign (CmmLocal reg) result -- for the seqlike Prefetch
-          _     -> panic "StgCmmPrim: mkBasicPrefetch"
+        return ()
 
 -- ----------------------------------------------------------------------------
 -- Allocating byte arrays

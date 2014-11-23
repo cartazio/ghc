@@ -2933,17 +2933,10 @@ section "Prefetch"
   architectures or vendor hardware. The manual can be found at
   http://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-optimization-manual.html .
 
-  The {\tt prefetchMutableByteArray} family of operations has the order of operations
+  The {\tt prefetch*} family of operations has the order of operations
   determined by passing around the {\tt State#} token.
 
-  The {\tt prefetchByteArray}
-  and {\tt prefetchAddr} families of operations, which are pure, are meant to
-  be used in a {\tt seq} style fashion like the following
-
-  {\tt do  prefetchByteArray2# a n (return ())  ... }
-
-  This idiom will allow writing pure prefetch operations before the use site
-  of the Addr# or ByteArray#.
+  To get a "pure" version of these operations, use {\tt unsafePerformIO} or one of its siblings.
   }
 
 
@@ -2955,48 +2948,58 @@ section "Prefetch"
 
 ---
 primop PrefetchByteArrayOp3 "prefetchByteArray3#" GenPrimOp
-   ByteArray# -> Int# -> a -> (# a #)
+   ByteArray# -> Int# ->  State# s -> State# s
 
 primop PrefetchMutableByteArrayOp3 "prefetchMutableByteArray3#" GenPrimOp
    MutableByteArray# s -> Int# -> State# s -> State# s
 
 primop PrefetchAddrOp3 "prefetchAddr3#" GenPrimOp
-   Addr# -> Int# -> a -> (# a #)
+   Addr# -> Int# -> State# s -> State# s
+
+primop PrefetchValueOp3 "prefetchValue3#" GenPrimOp
+   a -> State# s -> State# s
 
 ----
 
 primop PrefetchByteArrayOp2 "prefetchByteArray2#" GenPrimOp
-   ByteArray# -> Int# -> a -> (# a #)
+   ByteArray# -> Int# ->  State# s -> State# s
 
 primop PrefetchMutableByteArrayOp2 "prefetchMutableByteArray2#" GenPrimOp
    MutableByteArray# s -> Int# -> State# s -> State# s
 
 primop PrefetchAddrOp2 "prefetchAddr2#" GenPrimOp
-   Addr# -> Int# -> a -> (# a #)
+   Addr# -> Int# ->  State# s -> State# s
+
+primop PrefetchValueOp2 "prefetchValue2#" GenPrimOp
+   a ->  State# s -> State# s
 
 ----
 
 primop PrefetchByteArrayOp1 "prefetchByteArray1#" GenPrimOp
-   ByteArray# -> Int# -> a -> (# a #)
+   ByteArray# -> Int# -> State# s -> State# s
 
 primop PrefetchMutableByteArrayOp1 "prefetchMutableByteArray1#" GenPrimOp
    MutableByteArray# s -> Int# -> State# s -> State# s
 
 primop PrefetchAddrOp1 "prefetchAddr1#" GenPrimOp
-   Addr# -> Int# -> a -> (# a #)
+   Addr# -> Int# -> State# s -> State# s
+
+primop PrefetchValueOp1 "prefetchValue1#" GenPrimOp
+   a -> State# s -> State# s
 
 ----
 
 primop PrefetchByteArrayOp0 "prefetchByteArray0#" GenPrimOp
-   ByteArray# -> Int# -> a -> (# a #)
+   ByteArray# -> Int# ->  State# s -> State# s
 
 primop PrefetchMutableByteArrayOp0 "prefetchMutableByteArray0#" GenPrimOp
    MutableByteArray# s -> Int# -> State# s -> State# s
 
 primop PrefetchAddrOp0 "prefetchAddr0#" GenPrimOp
-   Addr# -> Int# -> a -> (# a #)
+   Addr# -> Int# -> State# s -> State# s
 
-
+primop PrefetchValueOp0 "prefetchValue30#" GenPrimOp
+   a -> State# s -> State# s
 
 ------------------------------------------------------------------------
 ---                                                                  ---
