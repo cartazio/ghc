@@ -2958,6 +2958,7 @@ primop PrefetchAddrOp3 "prefetchAddr3#" GenPrimOp
 
 primop PrefetchValueOp3 "prefetchValue3#" GenPrimOp
    a -> State# s -> State# s
+   with strictness  = { \ _ -> mkClosedStrictSig [botDmd, topDmd] topRes }
 
 ----
 
@@ -2972,6 +2973,7 @@ primop PrefetchAddrOp2 "prefetchAddr2#" GenPrimOp
 
 primop PrefetchValueOp2 "prefetchValue2#" GenPrimOp
    a ->  State# s -> State# s
+   with strictness  = { \ _ -> mkClosedStrictSig [botDmd, topDmd] topRes }
 
 ----
 
@@ -2986,6 +2988,7 @@ primop PrefetchAddrOp1 "prefetchAddr1#" GenPrimOp
 
 primop PrefetchValueOp1 "prefetchValue1#" GenPrimOp
    a -> State# s -> State# s
+   with strictness  = { \ _ -> mkClosedStrictSig [botDmd, topDmd] topRes }
 
 ----
 
@@ -3000,6 +3003,7 @@ primop PrefetchAddrOp0 "prefetchAddr0#" GenPrimOp
 
 primop PrefetchValueOp0 "prefetchValue30#" GenPrimOp
    a -> State# s -> State# s
+   with strictness  = { \ _ -> mkClosedStrictSig [botDmd, topDmd] topRes }
 
 ------------------------------------------------------------------------
 ---                                                                  ---

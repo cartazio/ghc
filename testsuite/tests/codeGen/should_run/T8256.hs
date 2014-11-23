@@ -43,6 +43,8 @@ main = do
     wrapFetch prefetchValue1# (1 ::Int)
     wrapFetch prefetchValue2# "hiiii"
     wrapFetch prefetchValue3# (Maybe "testing")
+    wrapFetch prefetchValue0# (error "this shouldn't get evaluated")
+    --  -- ^^ this is to make sure it doesn't force thunks!
     if v1 `sameByteArray`  v1
       then putStrLn "success" else error "bad prefetch operation! please report"
 
