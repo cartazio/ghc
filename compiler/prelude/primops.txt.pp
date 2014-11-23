@@ -2936,7 +2936,7 @@ section "Prefetch"
   The {\tt prefetch*} family of operations has the order of operations
   determined by passing around the {\tt State#} token.
 
-  To get a "pure" version of these operations, use {\tt unsafePerformIO} or one of its siblings.
+  To get a "pure" version of these operations, use {\tt inlinePerformIO} which is quite safe in this context.
   }
 
 
