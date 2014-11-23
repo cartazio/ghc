@@ -32,13 +32,7 @@ sameByteArray ar1 ar2 = runST $
 
 
 
-appBy :: Monad m => (ByteArray# -> Int# -> a -> (#a#)) -> ByteArray  -> a -> m a
-appBy f (ByteArray by) a = (return . untup )$  f by #1   a
-      where
-        untup :: (#a#)-> a
-        untup (#a#) = a
---isSameByteArray :: ByteArray -> ByteArray -> Bool
---isSameByteArray = sameByteArray
+
 
 main :: IO ()
 main = do
