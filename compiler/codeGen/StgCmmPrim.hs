@@ -1585,9 +1585,9 @@ doPrefetchAddrOp _ _
    = panic "StgCmmPrim: doPrefetchAddrOp"
 
 doPrefetchValueOp :: Int
-                 -> CmmExpr
+                 -> [CmmExpr]
                  -> FCode ()
-doPrefetchValueOp  locality   addr
+doPrefetchValueOp  locality   [addr]
   =  do dflags <- getDynFlags
         mkBasicPrefetch locality 0 addr  (CmmLit (CmmInt 0 (wordWidth dflags)))
 doPrefetchValueOp _ _
