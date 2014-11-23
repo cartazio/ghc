@@ -2936,8 +2936,9 @@ section "Prefetch"
   The {\tt prefetch*} family of operations has the order of operations
   determined by passing around the {\tt State#} token.
 
-  To get a "pure" version of these operations, use {\tt accursedUnutterablePerformIO } aka {\tt inlinePerformIO} ,
-  which is defined in the ByteString library. Because a prefetch operation does no allocation, no reads, and no writes, this a safe.
+  To get a "pure" version of these operations, use {\tt accursedUnutterablePerformIO } (aka {\tt inlinePerformIO}),
+  which is defined in the ByteString library.
+  Because a prefetch operation does no allocation, no reads, and no writes, this a safe.
 
 
 
