@@ -26,7 +26,7 @@ wrapFetch prefetch  a = IO (\ s -> (# prefetch a s, ()#))
 main :: IO ()
 main = do
     (ptr :: Ptr Int) <- malloc
-    wrapFetch (\ (Ptr adr)-> prefetchAddr3 adr 0# ) ptr
+    wrapFetch (\ (Ptr adr)-> prefetchAddr3# adr 0# ) ptr
     wrapFetch prefetchValue1# (1 ::Int)
     wrapFetch prefetchValue2# "hiiii"
     wrapFetch prefetchValue3# (Just "testing")
