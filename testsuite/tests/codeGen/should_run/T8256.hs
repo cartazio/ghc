@@ -1,4 +1,4 @@
-{-# LANGUAGE MagicHash, UnboxedTuples #-}
+{-# LANGUAGE MagicHash, UnboxedTuples , ScopedTypeVariables #-}
 
 module Main where
 {-
@@ -10,10 +10,9 @@ in Trac #9353, which uses state tokens always.
 
 import GHC.Prim
 import GHC.Types
-
-
-
-{-newtype IO a = IO (State# RealWorld -> (# State# RealWorld, a #))-}
+import Foreign
+import Foreign.Ptr
+import GHC.Ptr
 
 wrapFetch :: (a -> State# RealWorld -> State# RealWorld) -> (a -> IO ())
 wrapFetch prefetch  a = IO (\ s -> (# prefetch a s, ()#))
@@ -26,6 +25,8 @@ wrapFetch prefetch  a = IO (\ s -> (# prefetch a s, ()#))
 
 main :: IO ()
 main = do
+    (ptr :: Ptr Int) <- malloc
+    wrapFetch (\ (Ptr adr)-> prefetchAddr3 adr 0# ) ptr
     wrapFetch prefetchValue1# (1 ::Int)
     wrapFetch prefetchValue2# "hiiii"
     wrapFetch prefetchValue3# (Just "testing")
@@ -35,8 +36,3 @@ main = do
     --wrapFetch prefetchValue0#  $! (error "this shouldn't get evaluated")
     -- would trigger an exception
     putStrLn "success"
-
-
-
-
-
