@@ -2954,15 +2954,15 @@ section "Prefetch"
 ---
 primop PrefetchByteArrayOp3 "prefetchByteArray3#" GenPrimOp
   ByteArray# -> Int# ->  State# s -> State# s
-  with has_side_effects =  True
+
 
 primop PrefetchMutableByteArrayOp3 "prefetchMutableByteArray3#" GenPrimOp
   MutableByteArray# s -> Int# -> State# s -> State# s
-  with has_side_effects =  True
+
 
 primop PrefetchAddrOp3 "prefetchAddr3#" GenPrimOp
   Addr# -> Int# -> State# s -> State# s
-  with has_side_effects =  True
+
 
 primop PrefetchValueOp3 "prefetchValue3#" GenPrimOp
    a -> State# s -> State# s
@@ -2972,15 +2972,15 @@ primop PrefetchValueOp3 "prefetchValue3#" GenPrimOp
 
 primop PrefetchByteArrayOp2 "prefetchByteArray2#" GenPrimOp
   ByteArray# -> Int# ->  State# s -> State# s
-  with has_side_effects =  True
+
 
 primop PrefetchMutableByteArrayOp2 "prefetchMutableByteArray2#" GenPrimOp
   MutableByteArray# s -> Int# -> State# s -> State# s
-  with has_side_effects =  True
+
 
 primop PrefetchAddrOp2 "prefetchAddr2#" GenPrimOp
   Addr# -> Int# ->  State# s -> State# s
-  with has_side_effects =  True
+
 
 primop PrefetchValueOp2 "prefetchValue2#" GenPrimOp
    a ->  State# s -> State# s
@@ -2990,15 +2990,15 @@ primop PrefetchValueOp2 "prefetchValue2#" GenPrimOp
 
 primop PrefetchByteArrayOp1 "prefetchByteArray1#" GenPrimOp
    ByteArray# -> Int# -> State# s -> State# s
-   with has_side_effects =  True
+
 
 primop PrefetchMutableByteArrayOp1 "prefetchMutableByteArray1#" GenPrimOp
   MutableByteArray# s -> Int# -> State# s -> State# s
-  with has_side_effects =  True
+
 
 primop PrefetchAddrOp1 "prefetchAddr1#" GenPrimOp
   Addr# -> Int# -> State# s -> State# s
-  with has_side_effects =  True
+
 
 primop PrefetchValueOp1 "prefetchValue1#" GenPrimOp
    a -> State# s -> State# s
@@ -3008,15 +3008,15 @@ primop PrefetchValueOp1 "prefetchValue1#" GenPrimOp
 
 primop PrefetchByteArrayOp0 "prefetchByteArray0#" GenPrimOp
   ByteArray# -> Int# ->  State# s -> State# s
-  with has_side_effects =  True
+
 
 primop PrefetchMutableByteArrayOp0 "prefetchMutableByteArray0#" GenPrimOp
   MutableByteArray# s -> Int# -> State# s -> State# s
-  with has_side_effects =  True
+
 
 primop PrefetchAddrOp0 "prefetchAddr0#" GenPrimOp
   Addr# -> Int# -> State# s -> State# s
-  with has_side_effects =  True
+
 
 primop PrefetchValueOp0 "prefetchValue0#" GenPrimOp
    a -> State# s -> State# s
